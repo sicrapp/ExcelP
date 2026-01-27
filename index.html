@@ -3,331 +3,613 @@
  <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>แบบประเมินความพึงพอใจ DATA-DRIVEN REHAB</title>
+  <title>DATA - DRIVEN REHAB | แบบประเมินความพึงพอใจ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
   <script src="/_sdk/element_sdk.js"></script>
   <style>
-    body {
-      box-sizing: border-box;
-      font-family: 'Kanit', sans-serif;
-    }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #4E56C0 0%, #9B5DE0 50%, #D78FEE 100%);
-    }
-    
-    .card-gradient {
-      background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(253,207,250,0.3) 100%);
-    }
-    
-    .rating-btn {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      opacity: 0.5;
-    }
-    
-    .rating-btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.8;
-    }
-    
-    .rating-btn.selected {
-      transform: scale(1.05);
-      box-shadow: 0 4px 15px rgba(155, 93, 224, 0.4);
-      opacity: 1 !important;
-      font-weight: 600;
-    }
-    
-    .question-card {
-      animation: fadeInUp 0.5s ease-out forwards;
-      opacity: 0;
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    .pulse-icon {
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-    
-    .floating {
-      animation: floating 3s ease-in-out infinite;
-    }
-    
-    @keyframes floating {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-  </style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Kanit', sans-serif;
+        }
+        
+        * {
+            font-family: 'Kanit', sans-serif;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #4E56C0 0%, #9B5DE0 50%, #D78FEE 100%);
+        }
+
+        .rating-button {
+            transition: all 0.3s ease;
+        }
+
+        .rating-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .rating-button.selected {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(78, 86, 192, 0.15);
+        }
+
+        .icon-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        textarea:focus, input:focus {
+            outline: none;
+            border-color: #9B5DE0;
+            box-shadow: 0 0 0 3px rgba(155, 93, 224, 0.1);
+        }
+
+        .submit-button {
+            background: linear-gradient(135deg, #9B5DE0 0%, #D78FEE 100%);
+            transition: all 0.3s ease;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(155, 93, 224, 0.3);
+        }
+
+        .submit-button:active {
+            transform: translateY(0);
+        }
+    </style>
   <style>@view-transition { navigation: auto; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
  </head>
- <body class="h-full">
-  <div id="app" class="min-h-full gradient-bg overflow-auto"><!-- Header -->
-   <header class="pt-6 pb-4 px-4 text-center">
-    <div class="floating inline-block mb-3">
-     <svg width="80" height="80" viewbox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="40" cy="40" r="38" fill="white" fill-opacity="0.2" /> <circle cx="40" cy="40" r="30" fill="white" fill-opacity="0.3" /> <path d="M25 40C25 31.716 31.716 25 40 25C48.284 25 55 31.716 55 40" stroke="white" stroke-width="4" stroke-linecap="round" /> <circle cx="40" cy="40" r="8" fill="#FDCFFA" /> <path d="M40 32V28" stroke="white" stroke-width="3" stroke-linecap="round" /> <path d="M40 52V48" stroke="white" stroke-width="3" stroke-linecap="round" /> <path d="M48 40H52" stroke="white" stroke-width="3" stroke-linecap="round" /> <path d="M28 40H32" stroke="white" stroke-width="3" stroke-linecap="round" /> <circle cx="56" cy="24" r="6" fill="#FDCFFA" /> <text x="54" y="27" font-size="8" fill="#4E56C0" font-weight="bold">
-       AI
-      </text>
-     </svg>
-    </div>
-    <h1 id="mainTitle" class="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">แบบประเมินความพึงพอใจ</h1>
-    <h2 id="surveyTitle" class="text-xl md:text-2xl font-semibold text-white/90 mt-1">"DATA-DRIVEN REHAB"</h2>
-    <p id="subtitle" class="text-white/80 mt-2 text-sm md:text-base">🚀 ยกระดับประสิทธิภาพทีมด้วยเทคโนโลยี และ AI</p>
-   </header><!-- Survey Form -->
-   <main class="px-4 pb-8 max-w-2xl mx-auto">
-    <form id="surveyForm" class="space-y-4"><!-- Question 1 -->
-     <div class="question-card card-gradient rounded-2xl p-4 shadow-lg border border-white/50" style="animation-delay: 0.1s;">
-      <div class="flex items-start gap-3 mb-3"><span class="text-2xl">📚</span>
-       <div><span class="inline-block bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white text-xs font-medium px-2 py-1 rounded-full mb-2">ข้อ 1</span>
-        <p class="text-gray-700 font-medium text-sm md:text-base">ท่านเห็นว่าเนื้อหาการอบรมมีความสอดคล้องกับความคาดหวังของท่านหรือไม่</p>
-       </div>
-      </div>
-      <div class="flex flex-wrap gap-2 justify-center" data-question="q1"><button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white" data-value="5">😍 มากที่สุด</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#9B5DE0] to-[#D78FEE] text-white" data-value="4">😊 มาก</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#D78FEE] to-[#FDCFFA] text-gray-700" data-value="3">😐 ปานกลาง</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-200 text-gray-600" data-value="2">😕 น้อย</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-300 text-gray-500" data-value="1">😶 เฉยๆ</button>
-      </div>
-     </div><!-- Question 2 -->
-     <div class="question-card card-gradient rounded-2xl p-4 shadow-lg border border-white/50" style="animation-delay: 0.2s;">
-      <div class="flex items-start gap-3 mb-3"><span class="text-2xl">💼</span>
-       <div><span class="inline-block bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white text-xs font-medium px-2 py-1 rounded-full mb-2">ข้อ 2</span>
-        <p class="text-gray-700 font-medium text-sm md:text-base">ท่านคิดว่าเนื้อหาการอบรมเป็นประโยชน์ต่อการปฏิบัติงานหรือไม่</p>
-       </div>
-      </div>
-      <div class="flex flex-wrap gap-2 justify-center" data-question="q2"><button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white" data-value="5">😍 มากที่สุด</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#9B5DE0] to-[#D78FEE] text-white" data-value="4">😊 มาก</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#D78FEE] to-[#FDCFFA] text-gray-700" data-value="3">😐 ปานกลาง</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-200 text-gray-600" data-value="2">😕 น้อย</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-300 text-gray-500" data-value="1">😶 เฉยๆ</button>
-      </div>
-     </div><!-- Question 3 -->
-     <div class="question-card card-gradient rounded-2xl p-4 shadow-lg border border-white/50" style="animation-delay: 0.3s;">
-      <div class="flex items-start gap-3 mb-3"><span class="text-2xl">🎯</span>
-       <div><span class="inline-block bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white text-xs font-medium px-2 py-1 rounded-full mb-2">ข้อ 3</span>
-        <p class="text-gray-700 font-medium text-sm md:text-base">หลังจากเข้าอบรมแล้ว ท่านรู้สึกอยากเรียนรู้เพิ่มเติมต่อไป (อย่างน้อยมี 1 เรื่องที่สนใจ)</p>
-       </div>
-      </div>
-      <div class="flex flex-wrap gap-2 justify-center" data-question="q3"><button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white" data-value="5">😍 มากที่สุด</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#9B5DE0] to-[#D78FEE] text-white" data-value="4">😊 มาก</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#D78FEE] to-[#FDCFFA] text-gray-700" data-value="3">😐 ปานกลาง</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-200 text-gray-600" data-value="2">😕 น้อย</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-300 text-gray-500" data-value="1">😶 เฉยๆ</button>
-      </div>
-     </div><!-- Question 4 -->
-     <div class="question-card card-gradient rounded-2xl p-4 shadow-lg border border-white/50" style="animation-delay: 0.4s;">
-      <div class="flex items-start gap-3 mb-3"><span class="text-2xl">💡</span>
-       <div><span class="inline-block bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white text-xs font-medium px-2 py-1 rounded-full mb-2">ข้อ 4</span>
-        <p class="text-gray-700 font-medium text-sm md:text-base">หลังจากอบรมแล้ว ท่านเกิดความคิดในการพัฒนาคุณภาพงานในความรับผิดชอบของท่านต่อไป (เช่น งานประจำ กิจกรรม โครงการ ฯลฯ)</p>
-       </div>
-      </div>
-      <div class="flex flex-wrap gap-2 justify-center" data-question="q4"><button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white" data-value="5">😍 มากที่สุด</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#9B5DE0] to-[#D78FEE] text-white" data-value="4">😊 มาก</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#D78FEE] to-[#FDCFFA] text-gray-700" data-value="3">😐 ปานกลาง</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-200 text-gray-600" data-value="2">😕 น้อย</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-300 text-gray-500" data-value="1">😶 เฉยๆ</button>
-      </div>
-     </div><!-- Question 5 -->
-     <div class="question-card card-gradient rounded-2xl p-4 shadow-lg border border-white/50" style="animation-delay: 0.5s;">
-      <div class="flex items-start gap-3 mb-3"><span class="text-2xl pulse-icon">⭐</span>
-       <div><span class="inline-block bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white text-xs font-medium px-2 py-1 rounded-full mb-2">ข้อ 5</span>
-        <p class="text-gray-700 font-medium text-sm md:text-base">ความพึงพอใจโดยรวม</p>
-       </div>
-      </div>
-      <div class="flex flex-wrap gap-2 justify-center" data-question="q5"><button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#4E56C0] to-[#9B5DE0] text-white" data-value="5">😍 มากที่สุด</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#9B5DE0] to-[#D78FEE] text-white" data-value="4">😊 มาก</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gradient-to-r from-[#D78FEE] to-[#FDCFFA] text-gray-700" data-value="3">😐 ปานกลาง</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-200 text-gray-600" data-value="2">😕 น้อย</button> <button type="button" class="rating-btn px-3 py-2 rounded-full text-xs font-medium bg-gray-300 text-gray-500" data-value="1">😶 เฉยๆ</button>
-      </div>
-     </div><!-- Submit Button -->
-     <div class="question-card pt-4" style="animation-delay: 0.6s;"><button type="submit" id="submitBtn" class="w-full py-4 bg-white text-[#4E56C0] font-bold text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"> <span>📤</span> <span>ส่งแบบประเมิน</span> </button>
+ <body class="h-full w-full" style="background: linear-gradient(135deg, #FDCFFA 0%, #ffffff 50%, #D78FEE 100%); margin: 0; padding: 0;">
+  <div class="w-full h-full overflow-auto">
+   <div class="w-full max-w-4xl mx-auto px-4 py-8"><!-- Header -->
+    <div class="gradient-bg rounded-3xl p-8 mb-6 card-shadow text-white text-center">
+     <div class="text-5xl mb-4 icon-pulse">
+      📊
      </div>
+     <h1 id="main-title" class="text-3xl font-bold mb-2">DATA - DRIVEN REHAB</h1>
+     <p id="subtitle" class="text-lg opacity-90">ยกระดับประสิทธิภาพทีมด้วยเทคโนโลジี และ AI</p>
+    </div><!-- Survey Form -->
+    <form id="surveyForm" class="space-y-6"><!-- ด้านเนื้อหา Section -->
+     <div class="bg-white rounded-2xl p-6 card-shadow">
+      <div class="flex items-center mb-6"><span class="text-3xl mr-3">📚</span>
+       <h2 class="text-2xl font-bold" style="color: #4E56C0;">ด้านเนื้อหา</h2>
+      </div><!-- Question 1 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 1. ท่านเห็นว่าเนื้อหาการอบรมมีความสอดคล้องกับความคาดหวังของท่านหรือไม่ </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q1" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q1" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q1" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q1" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q1" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div><!-- Question 2 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 2. ท่านคิดว่าเนื้อหาการอบรมเป็นประโยชน์ต่อการปฏิบัติงานหรือไม่ </label>
+       <div class="grid grid-cols-5 gap-2 mb-3"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q2" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q2" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q2" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q2" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q2" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div><textarea id="q2_example" rows="3" class="w-full px-4 py-3 border-2 rounded-xl resize-none transition-all" style="border-color: #D78FEE;" placeholder="กรุณายกตัวอย่างงานที่ท่านจะได้ใช้ประโยชน์..."></textarea>
+      </div><!-- Question 3 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 3. หลังจากเข้าอบรมแล้ว ท่านรู้สึกอยากเรียนรู้เพิ่มเติมต่อไป (อย่างน้อยมี 1 เรื่องที่สนใจ) </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div><!-- Question 4 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 4. หลังจากอบรมแล้ว ท่านเกิดความคิดในการพัฒนาคุณภาพงานในความรับผิดชอบของท่านต่อไป </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q4" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q4" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q4" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q4" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q4" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div><!-- Question 5 -->
+      <div><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 5. ความพึงพอใจโดยรวม </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q5" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q5" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q5" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q5" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q5" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div>
+     </div><!-- ด้านอื่นๆ Section -->
+     <div class="bg-white rounded-2xl p-6 card-shadow">
+      <div class="flex items-center mb-6"><span class="text-3xl mr-3">⚙️</span>
+       <h2 class="text-2xl font-bold" style="color: #4E56C0;">ด้านอื่นๆ</h2>
+      </div><!-- Question 6 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 1. ระบบเสียงและภาพ ทั้ง online onsite </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q6" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q6" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q6" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q6" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q6" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div><!-- Question 7 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 2. การถ่ายทอดของวิทยากรชัดเจน </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q7" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q7" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q7" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q7" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q7" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div><!-- Question 8 -->
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 3. ระยะเวลาเหมาะสม </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q8" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q8" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q8" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q8" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q8" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div><!-- Question 9 -->
+      <div><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 4. การเปิดโอกาสให้ซักถาม </label>
+       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q9" data-value="5">
+         <div class="text-2xl mb-1">
+          😍
+         </div>
+         <div>
+          มากที่สุด
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q9" data-value="4">
+         <div class="text-2xl mb-1">
+          😊
+         </div>
+         <div>
+          มาก
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q9" data-value="3">
+         <div class="text-2xl mb-1">
+          😐
+         </div>
+         <div>
+          ปานกลาง
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q9" data-value="2">
+         <div class="text-2xl mb-1">
+          😕
+         </div>
+         <div>
+          น้อย
+         </div></button> <button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q9" data-value="1">
+         <div class="text-2xl mb-1">
+          😞
+         </div>
+         <div>
+          น้อยที่สุด
+         </div></button>
+       </div>
+      </div>
+     </div><!-- Additional Feedback Section -->
+     <div class="bg-white rounded-2xl p-6 card-shadow">
+      <div class="flex items-center mb-6"><span class="text-3xl mr-3">💡</span>
+       <h2 class="text-2xl font-bold" style="color: #4E56C0;">ข้อเสนอแนะเพิ่มเติม</h2>
+      </div>
+      <div class="mb-6"><label for="nextTopic" class="block text-base font-medium mb-3" style="color: #4E56C0;"> หัวข้อที่ท่านสนใจ เสนอให้จัดในครั้งต่อไป </label> <textarea id="nextTopic" rows="3" class="w-full px-4 py-3 border-2 rounded-xl resize-none transition-all" style="border-color: #D78FEE;" placeholder="แบ่งปันไอเดียหัวข้อที่ท่านสนใจ..."></textarea>
+      </div>
+      <div><label for="suggestions" class="block text-base font-medium mb-3" style="color: #4E56C0;"> ข้อเสนอแนะ </label> <textarea id="suggestions" rows="4" class="w-full px-4 py-3 border-2 rounded-xl resize-none transition-all" style="border-color: #D78FEE;" placeholder="ข้อเสนอแนะหรือความคิดเห็นเพิ่มเติม..."></textarea>
+      </div>
+     </div><!-- Submit Button --> <button type="submit" class="submit-button w-full py-4 px-6 rounded-2xl text-white text-lg font-bold shadow-lg"> <span class="text-2xl mr-2">📝</span> ส่งแบบประเมิน </button>
     </form><!-- Footer -->
-    <footer class="text-center mt-6 text-white/70 text-sm">
-     <p>🙏 ขอบคุณสำหรับความคิดเห็นของท่าน</p>
-     <p class="mt-1 text-xs">DATA-DRIVEN REHAB © 2024</p>
-    </footer>
-   </main>
+    <div class="text-center mt-8 text-sm opacity-75" style="color: #4E56C0;">
+     <p>ขอบคุณที่สละเวลาในการตอบแบบประเมิน</p>
+     <p class="mt-1">ข้อมูลของท่านจะถูกเก็บเป็นความลับและนำไปพัฒนาคุณภาพการอบรมต่อไป</p>
+    </div>
+   </div>
   </div>
   <script>
-    // Default configuration
-    const defaultConfig = {
-      survey_title: '"DATA-DRIVEN REHAB"',
-      subtitle: '🚀 ยกระดับประสิทธิภาพทีมด้วยเทคโนโลยี และ AI',
-      primary_color: '#4E56C0',
-      secondary_color: '#9B5DE0',
-      accent_color: '#D78FEE',
-      light_color: '#FDCFFA'
-    };
+        const defaultConfig = {
+            main_title: 'DATA - DRIVEN REHAB',
+            subtitle: 'ยกระดับประสิทธิภาพทีมด้วยเทคโนโลจี และ AI'
+        };
 
-    let config = { ...defaultConfig };
-    
-    // Store answers
-    const answers = {
-      q1: null,
-      q2: null,
-      q3: null,
-      q4: null,
-      q5: null
-    };
+        const ratings = {
+            q1: null, q2: null, q3: null, q4: null, q5: null,
+            q6: null, q7: null, q8: null, q9: null
+        };
 
-    // Google Apps Script URL
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyPw44ON2gXNsa_D6YM9HszVlWjZLeRyH6RZRoD2jqvr4WbuZCuXaNvyP0a-tuX2jD7-g/exec';
-
-    // Rating button click handler
-    document.querySelectorAll('[data-question]').forEach(container => {
-      const question = container.dataset.question;
-      container.querySelectorAll('.rating-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          // Remove selected class from siblings
-          container.querySelectorAll('.rating-btn').forEach(b => {
-            b.classList.remove('selected');
-          });
-          // Add selected class to clicked button
-          btn.classList.add('selected');
-          // Store answer
-          answers[question] = parseInt(btn.dataset.value);
+        // Rating button click handler
+        document.querySelectorAll('.rating-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const question = this.dataset.question;
+                const value = this.dataset.value;
+                
+                // Remove selected class from all buttons in this question
+                document.querySelectorAll(`[data-question="${question}"]`).forEach(btn => {
+                    btn.classList.remove('selected');
+                    btn.style.background = 'white';
+                    btn.style.color = '#4E56C0';
+                });
+                
+                // Add selected class to clicked button
+                this.classList.add('selected');
+                this.style.background = 'linear-gradient(135deg, #9B5DE0 0%, #D78FEE 100%)';
+                this.style.color = 'white';
+                
+                // Store rating
+                ratings[question] = parseInt(value);
+            });
         });
-      });
-    });
 
-    // Form submission
-    document.getElementById('surveyForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      // Validate all questions answered
-      const unanswered = Object.entries(answers).filter(([key, value]) => value === null);
-      if (unanswered.length > 0) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'กรุณาตอบให้ครบทุกข้อ',
-          text: `ยังมี ${unanswered.length} ข้อที่ยังไม่ได้ตอบ`,
-          confirmButtonColor: '#4E56C0',
-          confirmButtonText: 'ตกลง'
+        // Form submit handler
+        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Validate all ratings
+            const missingRatings = [];
+            for (let i = 1; i <= 9; i++) {
+                if (ratings[`q${i}`] === null) {
+                    missingRatings.push(i);
+                }
+            }
+            
+            if (missingRatings.length > 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณาประเมินให้ครบถ้วน',
+                    text: `กรุณาให้คะแนนคำถามข้อ: ${missingRatings.join(', ')}`,
+                    confirmButtonColor: '#9B5DE0',
+                    confirmButtonText: 'ตกลง'
+                });
+                return;
+            }
+            
+            // Prepare data
+            const formData = {
+                timestamp: new Date().toISOString(),
+                q1: ratings.q1,
+                q2: ratings.q2,
+                q2_example: document.getElementById('q2_example').value,
+                q3: ratings.q3,
+                q4: ratings.q4,
+                q5: ratings.q5,
+                q6: ratings.q6,
+                q7: ratings.q7,
+                q8: ratings.q8,
+                q9: ratings.q9,
+                next_topic: document.getElementById('nextTopic').value,
+                suggestions: document.getElementById('suggestions').value
+            };
+            
+            // Show loading
+            Swal.fire({
+                title: 'กำลังบันทึกข้อมูล...',
+                text: 'กรุณารอสักครู่',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                willOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            
+            try {
+                // Send data using JSONP
+                await sendDataViaJSONP(formData);
+                
+                // Show success message
+                Swal.fire({
+                    icon: 'success',
+                    title: 'บันทึกสำเร็จ!',
+                    text: 'ขอบคุณสำหรับการตอบแบบประเมิน',
+                    confirmButtonColor: '#9B5DE0',
+                    confirmButtonText: 'ตกลง'
+                }).then(() => {
+                    // Reset form
+                    document.getElementById('surveyForm').reset();
+                    document.querySelectorAll('.rating-button').forEach(btn => {
+                        btn.classList.remove('selected');
+                        btn.style.background = 'white';
+                        btn.style.color = '#4E56C0';
+                    });
+                    
+                    // Reset ratings
+                    Object.keys(ratings).forEach(key => ratings[key] = null);
+                });
+                
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'เกิดข้อผิดพลาด',
+                    text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
+                    confirmButtonColor: '#9B5DE0',
+                    confirmButtonText: 'ตกลง'
+                });
+            }
         });
-        return;
-      }
 
-      // Show loading
-      Swal.fire({
-        title: 'กำลังบันทึก...',
-        html: '<div class="text-4xl mb-2">📤</div>กรุณารอสักครู่',
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-        showConfirmButton: false,
-        didOpen: () => {
-          Swal.showLoading();
+        // JSONP function to send data
+        function sendDataViaJSONP(data) {
+            return new Promise((resolve, reject) => {
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbw3ZN6Dro8JC8o7J4rTf-EHbDyPBgNZ-Lo5PfvUR_nmF1MfhjkhumjzieKSCrYK5bsl/exec';
+                const callbackName = 'jsonpCallback_' + Date.now();
+                
+                window[callbackName] = function(response) {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    
+                    if (response.result === 'success') {
+                        resolve(response);
+                    } else {
+                        reject(new Error(response.error || 'Unknown error'));
+                    }
+                };
+                
+                const script = document.createElement('script');
+                const params = new URLSearchParams({
+                    callback: callbackName,
+                    ...data
+                });
+                
+                script.src = `${scriptUrl}?${params.toString()}`;
+                script.onerror = () => {
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                    reject(new Error('Network error'));
+                };
+                
+                document.body.appendChild(script);
+            });
         }
-      });
 
-      try {
-        // Prepare data
-        const data = {
-          timestamp: new Date().toISOString(),
-          q1_content_expectation: answers.q1,
-          q2_practical_benefit: answers.q2,
-          q3_learning_interest: answers.q3,
-          q4_quality_improvement: answers.q4,
-          q5_overall_satisfaction: answers.q5,
-          average_score: ((answers.q1 + answers.q2 + answers.q3 + answers.q4 + answers.q5) / 5).toFixed(2)
-        };
-
-        // Send data via JSONP
-        await sendDataJSONP(data);
-
-        // Show success
-        Swal.fire({
-          icon: 'success',
-          title: 'บันทึกสำเร็จ! 🎉',
-          html: '<div class="text-lg">ขอบคุณสำหรับการประเมิน</div><div class="text-sm text-gray-500 mt-2">ความคิดเห็นของท่านมีค่ายิ่ง</div>',
-          confirmButtonColor: '#4E56C0',
-          confirmButtonText: 'ปิด',
-          timer: 3000,
-          timerProgressBar: true
-        }).then(() => {
-          // Reset form
-          resetForm();
-        });
-
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: 'เกิดข้อผิดพลาด',
-          text: 'ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่อีกครั้ง',
-          confirmButtonColor: '#4E56C0',
-          confirmButtonText: 'ตกลง'
-        });
-      }
-    });
-
-    // JSONP data sending function
-    function sendDataJSONP(data) {
-      return new Promise((resolve, reject) => {
-        const callbackName = 'jsonpCallback_' + Date.now();
-        const timeout = setTimeout(() => {
-          cleanup();
-          reject(new Error('Request timeout'));
-        }, 30000);
-
-        window[callbackName] = function(response) {
-          cleanup();
-          if (response && response.success) {
-            resolve(response);
-          } else {
-            reject(new Error(response?.error || 'Unknown error'));
-          }
-        };
-
-        function cleanup() {
-          clearTimeout(timeout);
-          delete window[callbackName];
-          const script = document.querySelector(`script[data-callback="${callbackName}"]`);
-          if (script) script.remove();
+        // Element SDK configuration
+        async function onConfigChange(config) {
+            const mainTitle = document.getElementById('main-title');
+            const subtitle = document.getElementById('subtitle');
+            
+            if (mainTitle) {
+                mainTitle.textContent = config.main_title || defaultConfig.main_title;
+            }
+            
+            if (subtitle) {
+                subtitle.textContent = config.subtitle || defaultConfig.subtitle;
+            }
         }
 
-        const params = new URLSearchParams({
-          callback: callbackName,
-          action: 'submit',
-          data: JSON.stringify(data)
-        });
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [],
+                borderables: [],
+                fontEditable: undefined,
+                fontSizeable: undefined
+            };
+        }
 
-        const script = document.createElement('script');
-        script.src = `${SCRIPT_URL}?${params.toString()}`;
-        script.dataset.callback = callbackName;
-        script.onerror = () => {
-          cleanup();
-          reject(new Error('Script load failed'));
-        };
-        document.body.appendChild(script);
-      });
-    }
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ['main_title', config.main_title || defaultConfig.main_title],
+                ['subtitle', config.subtitle || defaultConfig.subtitle]
+            ]);
+        }
 
-    // Reset form function
-    function resetForm() {
-      Object.keys(answers).forEach(key => answers[key] = null);
-      document.querySelectorAll('.rating-btn').forEach(btn => {
-        btn.classList.remove('selected');
-      });
-    }
-
-    // Initialize Element SDK
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange: async (newConfig) => {
-          config = { ...defaultConfig, ...newConfig };
-          
-          document.getElementById('surveyTitle').textContent = config.survey_title || defaultConfig.survey_title;
-          document.getElementById('subtitle').textContent = config.subtitle || defaultConfig.subtitle;
-        },
-        mapToCapabilities: (config) => ({
-          recolorables: [],
-          borderables: [],
-          fontEditable: undefined,
-          fontSizeable: undefined
-        }),
-        mapToEditPanelValues: (config) => new Map([
-          ['survey_title', config.survey_title || defaultConfig.survey_title],
-          ['subtitle', config.subtitle || defaultConfig.subtitle]
-        ])
-      });
-    }
-  </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c411b5277d24b94',t:'MTc2OTQ0MjAwNS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: mapToCapabilities,
+                mapToEditPanelValues: mapToEditPanelValues
+            });
+        }
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c483d5e605ef4cf',t:'MTc2OTUxNjgwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
