@@ -82,7 +82,7 @@
       📊
      </div>
      <h1 id="main-title" class="text-3xl font-bold mb-2">DATA - DRIVEN REHAB</h1>
-     <p id="subtitle" class="text-lg opacity-90">ยกระดับประสิทธิภาพทีมด้วยเทคโนโลジี และ AI</p>
+     <p id="subtitle" class="text-lg opacity-90">ยกระดับประสิทธิภาพทีมด้วยเทคโนโลจี และ AI</p>
     </div><!-- Survey Form -->
     <form id="surveyForm" class="space-y-6"><!-- ด้านเนื้อหา Section -->
      <div class="bg-white rounded-2xl p-6 card-shadow">
@@ -157,8 +157,8 @@
          </div></button>
        </div><textarea id="q2_example" rows="3" class="w-full px-4 py-3 border-2 rounded-xl resize-none transition-all" style="border-color: #D78FEE;" placeholder="กรุณายกตัวอย่างงานที่ท่านจะได้ใช้ประโยชน์..."></textarea>
       </div><!-- Question 3 -->
-      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 3. หลังจากเข้าอบรมแล้ว ท่านรู้สึกอยากเรียนรู้เพิ่มเติมต่อไป (อย่างน้อยมี 1 เรื่องที่สนใจ) </label>
-       <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="5">
+      <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 3. เข้าอบรมแล้วท่านต้องการเรียนรู้หัวข้อไหนเพิ่มเติม </label>
+       <div class="grid grid-cols-5 gap-2 mb-3"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q3" data-value="5">
          <div class="text-2xl mb-1">
           😍
          </div>
@@ -189,7 +189,7 @@
          <div>
           น้อยที่สุด
          </div></button>
-       </div>
+       </div><textarea id="q3_topics" rows="3" class="w-full px-4 py-3 border-2 rounded-xl resize-none transition-all" style="border-color: #D78FEE;" placeholder="เรื่องที่ท่านสนใจ..."></textarea>
       </div><!-- Question 4 -->
       <div class="mb-8"><label class="block text-base font-medium mb-3" style="color: #4E56C0;"> 4. หลังจากอบรมแล้ว ท่านเกิดความคิดในการพัฒนาคุณภาพงานในความรับผิดชอบของท่านต่อไป </label>
        <div class="grid grid-cols-5 gap-2"><button type="button" class="rating-button rounded-xl py-3 px-2 text-sm font-medium border-2 transition-all" style="border-color: #9B5DE0; color: #4E56C0; background: white;" data-question="q4" data-value="5">
@@ -482,6 +482,7 @@
                 q2: ratings.q2,
                 q2_example: document.getElementById('q2_example').value,
                 q3: ratings.q3,
+                q3_topics: document.getElementById('q3_topics').value,
                 q4: ratings.q4,
                 q5: ratings.q5,
                 q6: ratings.q6,
@@ -611,5 +612,5 @@
             });
         }
     </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c483d5e605ef4cf',t:'MTc2OTUxNjgwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c4c853a43b4f4cf',t:'MTc2OTU2MTY4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
